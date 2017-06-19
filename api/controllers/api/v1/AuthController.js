@@ -16,7 +16,6 @@ module.exports = {
         token: CipherService.createToken(user),
         username: user.username
       });
-
     })(req, res);
   },
 

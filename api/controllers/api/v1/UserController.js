@@ -9,7 +9,7 @@ module.exports = {
 	_config: {
     model: 'User'
   },
-	
+
 	create: function (req, res) {
 		User
 		.create({
@@ -26,6 +26,6 @@ module.exports = {
   },
 
   current: function(req, res) {
-
+		
   }
 };
