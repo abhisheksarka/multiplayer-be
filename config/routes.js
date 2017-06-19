@@ -35,7 +35,10 @@ module.exports.routes = {
   '/': {
     view: 'homepage'
   },
-  'POST /api/v1/user': 'api/v1/UserController.create',
+
+  'POST /api/v1/user/create': 'api/v1/UserController.create',
+  'GET /api/v1/user/current': 'api/v1/UserController.current',
+
   'POST /api/v1/auth/login': 'api/v1/AuthController.login',
   'POST /api/v1/auth/logout': 'api/v1/AuthController.logout'
 

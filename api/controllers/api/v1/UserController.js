@@ -9,6 +9,7 @@ module.exports = {
 	_config: {
     model: 'User'
   },
+	
 	create: function (req, res) {
 		User
 		.create({
@@ -22,5 +23,9 @@ module.exports = {
 				return res.apiSuccess(data);
 			};
 		});
+  },
+
+  current: function(req, res) {
+
   }
 };

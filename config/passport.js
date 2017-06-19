@@ -25,7 +25,7 @@ passport.use(
   new JwtStrategy(
     JWT_OPTS,
     function(jwt_payload, done) {
-      User.findOne({id: jwt_payload.sub}, function(err, user) {
+      User.findOne({id: jwt_payload.user.id}, function(err, user) {
         if (err) { return done(err, false); };
         if (user) {
           done(null, user);

@@ -28,11 +28,15 @@ module.exports.policies = {
   ***************************************************************************/
 
   '*': [
-    passport.initialize()
+    'isAuthenticated'
   ],
 
   'api/v1/AuthController': {
-    'logout': 'isAuthenticated'
+    'login': true
+  },
+
+  'api/v1/UserController': {
+    'create': true
   }
 
   /***************************************************************************
