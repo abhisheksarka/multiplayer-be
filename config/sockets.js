@@ -9,6 +9,17 @@
  * For more information on sockets configuration, including advanced config options, see:
  * http://sailsjs.org/#!/documentation/reference/sails.config/sails.config.sockets.html
  */
+ var io = require('socket.io')();
+ io.on('connection', function(socket){
+   console.log(socket);
+   socket.on('event', function(data){
+
+   });
+   socket.on('disconnect', function(){
+     console.log('disconnected');
+   });
+ });
+ io.listen(1338);
 
 module.exports.sockets = {
 
@@ -106,12 +117,13 @@ module.exports.sockets = {
   * app's security.                                                          *
   *                                                                          *
   ***************************************************************************/
-  // beforeConnect: function(handshake, cb) {
-  //   // `true` allows the connection
-  //   return cb(null, true);
-  //
-  //   // (`false` would reject the connection)
-  // },
+  beforeConnect: function(handshake, cb) {
+    // `true` allows the connection
+    console.log(handshake);
+    return cb(null, true);
+
+    // (`false` would reject the connection)
+  },
 
 
   /***************************************************************************
@@ -122,10 +134,10 @@ module.exports.sockets = {
   * disconnects                                                              *
   *                                                                          *
   ***************************************************************************/
-  // afterDisconnect: function(session, socket, cb) {
-  //   // By default: do nothing.
-  //   return cb();
-  // },
+  afterDisconnect: function(session, socket, cb) {
+    // By default: do nothing.
+    return cb();
+  },
 
   /***************************************************************************
   *                                                                          *
