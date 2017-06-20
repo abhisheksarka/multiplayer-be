@@ -40,7 +40,9 @@ module.exports.routes = {
   'GET /api/v1/user/current': 'api/v1/UserController.current',
 
   'POST /api/v1/auth/login': 'api/v1/AuthController.login',
-  'POST /api/v1/auth/logout': 'api/v1/AuthController.logout'
+  'POST /api/v1/auth/logout': 'api/v1/AuthController.logout',
+
+  'GET /api/v1/game/index': 'api/v1/GameController.index',
 
 
   /***************************************************************************
