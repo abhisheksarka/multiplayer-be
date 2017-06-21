@@ -20,6 +20,10 @@ module.exports = {
       type: 'integer',
       required: true
     }
-  }
+  },
 
+  afterCreate: function(gamePlay, next) {
+    new GamePlayRoomManager(gamePlay);
+    next();
+  }
 };

@@ -14,7 +14,8 @@ module.exports = {
       };
       return res.apiSuccess({
         token: CipherService.createToken(user),
-        username: user.username
+        username: user.username,
+        id: user.id
       });
     })(req, res);
   },
