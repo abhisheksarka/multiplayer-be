@@ -1,3 +1,7 @@
+/**
+ * Manages real time communication for game rooms
+ */
+
 var GamePlayRoomManager = function(gamePlay) {
   var self = this;
 
@@ -10,18 +14,52 @@ var GamePlayRoomManager = function(gamePlay) {
 
 var proto = GamePlayRoomManager.prototype;
 
+
+/**
+ * Create a namespace for the current gamePlay
+ */
 proto.namespace = function() {
   return this.io.of('/gamePlay/' + this.gamePlay.id);
 };
 
-proto.listen = function(socket) {
+
+/**
+ * Listen to all incoming events by a socket
+ */
+ proto.listen = function(socket) {
   var self = this,
       socketId = socket.id;
 
   socket.on('joined', function(user) { self.onJoined(user, socketId); });
   socket.on('disconnect', function() { self.onDisconnect(socketId); });
+  socket.on('started', function() { self.onStarted(); });
 };
 
+
+/**
+ * When a gameplay starts update the status in the db and let all
+ * all the clients know as well
+ */
+proto.onStarted = function() {
+  var self = this,
+      g = self.gamePlay;
+
+  GamePlay.findOne({id: g.id}).exec(function(err, g) {
+    g.status = 'started';
+    g.statusUpdateAt = new Date();
+
+    g.save(function(err) {
+      if (!err) {
+        self.namespace().emit('started');
+      }
+    });
+  });
+};
+
+
+/**
+ * When a user joins a gameplay inform all existing users
+ */
 proto.onJoined = function(user, socketId) {
   var self = this,
       attrs = {
@@ -41,6 +79,11 @@ proto.onJoined = function(user, socketId) {
   });
 };
 
+
+/**
+ * When a user exits the room update the status and let others know
+ * If this was the last user, end the gameplay session itself
+ */
 proto.onDisconnect = function (socketId) {
   var self = this,
       attrs = {

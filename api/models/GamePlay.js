@@ -13,8 +13,7 @@ module.exports = {
       defaultsTo: 'waiting' // waiting -> started -> ended
     },
     statusUpdateAt: {
-      type: 'date',
-      require: true
+      type: 'date'
     },
     gameId: {
       type: 'integer',

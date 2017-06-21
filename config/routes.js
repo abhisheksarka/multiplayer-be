@@ -47,7 +47,7 @@ module.exports.routes = {
   'POST /api/v1/gamePlay': 'api/v1/GamePlayController.create',
   'GET /api/v1/gamePlay/:gamePlayId/players': 'api/v1/GamePlayController.players',
 
-  'POST /api/v1/gamePlayUser': 'api/v1/GamePlayUserController.create',
+  'POST /api/v1/gamePlayUser': 'api/v1/GamePlayUserController.create'
 
 
   /***************************************************************************
