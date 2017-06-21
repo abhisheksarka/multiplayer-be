@@ -20,17 +20,18 @@ proto.listen = function(socket) {
 };
 
 proto.onJoined = function(user) {
-  var self = this;
-
-  // TODO: use promises here to chain callbacks
-  User.findOne({id: user.id})
-  .exec(function(err, user) {
-    if (user) {
-      GamePlayUser.findOrCreate({
+  var self = this,
+      attrs = {
         userId: user.id,
         gamePlayId: self.gamePlay.id,
         status: 'joined'
-      }).exec(function(err, gamePlayUser) {
+      };
+
+  // TODO: use promises here to chain callbacks
+  // and also check if the user is present in the system
+  GamePlayUser.findOne(attrs).exec(function(err, gamePlayUser) {
+    if (!gamePlayUser) {
+      GamePlayUser.create(attrs).exec(function(err, gamePlayUser) {
         self.namespace().emit('joined', {username: user.username, id: user.id});
       });
     };
