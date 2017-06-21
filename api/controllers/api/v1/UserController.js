@@ -17,15 +17,11 @@ module.exports = {
 			password: req.param('password')
 		})
 		.exec(function(err, data) {
-			if (err) {
-				return res.apiError(err);
-			} else {
-				return res.apiSuccess(data);
-			};
+      return StandardResponse(res, err, data);
 		});
   },
 
   current: function(req, res) {
-		
+
   }
 };

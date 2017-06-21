@@ -9,11 +9,7 @@ module.exports = {
   index: function(req, res) {
     Game.find({id: { '>=': 1 }}).exec(
       function(err, data) {
-        if (err) {
-          return res.apiError(err);
-        } else {
-          return res.apiSuccess(data);
-        };
+        return StandardResponse(res, err, data);
       }
     )
   }

@@ -11,11 +11,7 @@ module.exports = {
       gameId: req.param('gameId'),
       status: 'waiting'
     }).exec(function(err, data){
-      if (err) {
-        return res.apiError(err);
-      } else {
-        return res.apiSuccess(data);
-      };
+      return StandardResponse(res, err, data);
     });
   },
 
@@ -30,11 +26,7 @@ module.exports = {
           return d.userId;
         })
       }).exec(function(err, data){
-        if (err) {
-          return res.apiError(err);
-        } else {
-          return res.apiSuccess(data);
-        };
+        return StandardResponse(res, err, data);
       })
     })
   }
