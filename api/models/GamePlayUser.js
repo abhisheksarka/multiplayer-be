@@ -20,6 +20,10 @@ module.exports = {
       type: 'string',
       required: true,
       defaultsTo: 'joined' //joined -> left
+    },
+    clientId: {
+      type: 'string',
+      required: true
     }
   }
 

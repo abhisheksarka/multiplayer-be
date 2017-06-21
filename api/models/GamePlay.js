@@ -19,6 +19,25 @@ module.exports = {
     gameId: {
       type: 'integer',
       required: true
+    },
+
+    ended: function() {
+      var hasEverybodyLeft = true,
+          self = this;
+
+      GamePlayUser
+      .find({gamePlayId: self.id})
+      .exec(function(err, gamePlayUsers) {
+        gamePlayUsers.forEach(function(gamePlayUser) {
+          if (gamePlayUser.status != 'left') {
+            hasEverybodyLeft = false;
+          };
+        });
+        if (hasEverybodyLeft) {
+          self.status = 'ended';
+          self.save();
+        };
+      })
     }
   },
 

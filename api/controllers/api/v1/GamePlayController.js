@@ -37,5 +37,18 @@ module.exports = {
         };
       })
     })
+  },
+
+  start: function(req, res) {
+    var gamePlay = req.gamePlay;
+    gamePlay
+    .update({status: 'started', statusUpdateAt: new Date()})
+    .exec(function(err, gamePlay){
+      if (err) {
+        return res.apiError(err);
+      } else {
+        return res.apiSuccess(data);
+      };
+    });
   }
 };

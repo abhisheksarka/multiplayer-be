@@ -15,18 +15,21 @@ proto.namespace = function() {
 };
 
 proto.listen = function(socket) {
-  var self = this;
-  socket.on('joined', function(user) { self.onJoined(user); });
+  var self = this,
+      socketId = socket.id;
+
+  socket.on('joined', function(user) { self.onJoined(user, socketId); });
+  socket.on('disconnect', function() { self.onDisconnect(socketId); });
 };
 
-proto.onJoined = function(user) {
+proto.onJoined = function(user, socketId) {
   var self = this,
       attrs = {
         userId: user.id,
         gamePlayId: self.gamePlay.id,
-        status: 'joined'
+        status: 'joined',
+        clientId: socketId
       };
-
   // TODO: use promises here to chain callbacks
   // and also check if the user is present in the system
   GamePlayUser.findOne(attrs).exec(function(err, gamePlayUser) {
@@ -37,5 +40,27 @@ proto.onJoined = function(user) {
     };
   });
 };
+
+proto.onDisconnect = function (socketId) {
+  var self = this,
+      attrs = {
+        clientId: socketId
+      };
+
+  GamePlayUser
+  .findOne(attrs)
+  .exec(function(err, gamePlayUser) {
+    if (gamePlayUser) {
+      gamePlayUser.status = 'left';
+      gamePlayUser.save(function(err) {
+        GamePlay
+        .findOne({id: gamePlayUser.gamePlayId})
+        .exec(function(err, gamePlay) {
+          gamePlay.ended();
+        });
+      });
+    };
+  })
+}
 
 module.exports = GamePlayRoomManager;
