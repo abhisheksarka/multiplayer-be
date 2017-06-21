@@ -53,6 +53,8 @@ proto.onDisconnect = function (socketId) {
     if (gamePlayUser) {
       gamePlayUser.status = 'left';
       gamePlayUser.save(function(err) {
+
+        self.namespace().emit('left', {id: gamePlayUser.userId});
         GamePlay
         .findOne({id: gamePlayUser.gamePlayId})
         .exec(function(err, gamePlay) {
