@@ -10,5 +10,7 @@ module.exports = function apiError(err, options) {
 
   // Set content type
   res.contentType('application/json');
+  err = err || new TypeError('Internal Server Error');
+  
   return res.json({success: false, info: err.toString()});
 };
