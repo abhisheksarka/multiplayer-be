@@ -11,7 +11,7 @@ module.exports = {
       gameId: req.param('gameId'),
       status: 'waiting'
     }).exec(function(err, data){
-      return StandardResponse(res, err, data);
+      return StandardResponse(res, AppError('createFailed', err), data);
     });
   },
 
@@ -26,7 +26,7 @@ module.exports = {
           return d.userId;
         })
       }).exec(function(err, data){
-        return StandardResponse(res, err, data);
+        return StandardResponse(res, AppError('loadFailed', err), data);
       })
     })
   }

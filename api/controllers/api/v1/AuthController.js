@@ -10,7 +10,7 @@ module.exports = {
   login: function(req, res) {
     passport.authenticate('local', function(err, user, info) {
       if ((err) || (!user)) {
-        return res.apiError(user);
+        return res.apiError(err || AppError('credentialsInvalid', {}));
       };
       return res.apiSuccess({
         token: CipherService.createToken(user),
