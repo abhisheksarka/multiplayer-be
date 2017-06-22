@@ -11,7 +11,17 @@
 
 module.exports.bootstrap = function(cb) {
 
+  function callback(err, cb) {
+    if (err) {
+      console.log(err);
+    };
+  }
   // It's very important to trigger this callback method when you are finished
   // with the bootstrap!  (otherwise your server will never lift, since it's waiting on the bootstrap)
+  Game.findOrCreate({name: 'Click It', status: 1}).exec(callback);
+  Game.findOrCreate({name: 'Space Race', status: 0}).exec(callback);
+  Game.findOrCreate({name: 'Cross', status: 0}).exec(callback);
+  Game.findOrCreate({name: 'Jump', status: 0}).exec(callback);
+  
   cb();
 };
