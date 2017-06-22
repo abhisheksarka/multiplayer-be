@@ -18,7 +18,7 @@ module.exports.bootstrap = function(cb) {
   };
 
   Game.findOrCreate({name: 'Click It', status: 1}).exec(callback);
-  Game.findOrCreate({name: 'Space Race', status: 0}).exec(callback);
+  Game.findOrCreate({name: 'Space Race', status: 1}).exec(callback);
   Game.findOrCreate({name: 'Cross', status: 0}).exec(callback);
   Game.findOrCreate({name: 'Jump', status: 0}).exec(callback);
 
