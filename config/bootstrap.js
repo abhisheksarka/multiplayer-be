@@ -15,13 +15,33 @@ module.exports.bootstrap = function(cb) {
     if (err) {
       console.log(err);
     };
-  }
-  // It's very important to trigger this callback method when you are finished
-  // with the bootstrap!  (otherwise your server will never lift, since it's waiting on the bootstrap)
+  };
+
   Game.findOrCreate({name: 'Click It', status: 1}).exec(callback);
   Game.findOrCreate({name: 'Space Race', status: 0}).exec(callback);
   Game.findOrCreate({name: 'Cross', status: 0}).exec(callback);
   Game.findOrCreate({name: 'Jump', status: 0}).exec(callback);
-  
+
+  // This is clean up code for when the server dies in a middle
+  // of a gameplay, the callbacks did not have a chance to mark them
+  // as 'ended'
+  GamePlay.find({status: 'waiting'}).exec(function(err, gameplays) {
+    gameplays.forEach(function(g) {
+      g.status = 'ended';
+      g.save(function(err) {
+        if (!err) {
+          GamePlayUser.find({gamePlayId: g.id}).exec(function(err, gameplayusers) {
+            gameplayusers.forEach(function(g) {
+              g.status = 'left';
+              g.save(callback);
+            });
+          })
+        }
+      });
+    });
+  });
+
+  // It's very important to trigger this callback method when you are finished
+  // with the bootstrap!  (otherwise your server will never lift, since it's waiting on the bootstrap)
   cb();
 };
