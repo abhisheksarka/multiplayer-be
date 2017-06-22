@@ -29,9 +29,6 @@ module.exports = function(errName, errObject) {
   var e = AppError[errName];
       te = new TypeError(e.message);
   te.httpCode = e.httpCode;
-  if (errObject.code) {
-
-  }
   te.system = errObject.message;
 
   return te;
