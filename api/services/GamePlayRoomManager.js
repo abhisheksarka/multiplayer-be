@@ -47,7 +47,6 @@ proto.onStarted = function() {
   GamePlay.findOne({id: g.id}).exec(function(err, g) {
     g.status = 'started';
     g.statusUpdateAt = new Date();
-
     g.save(function(err) {
       if (!err) {
         self.namespace().emit('started');
