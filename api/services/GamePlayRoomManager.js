@@ -33,6 +33,7 @@ proto.namespace = function() {
   socket.on('joined', function(user) { self.onJoined(user, socketId); });
   socket.on('disconnect', function() { self.onDisconnect(socketId); });
   socket.on('started', function() { self.onStarted(); });
+  socket.on('gameData', function(res) { self.onGameData(res); });
 };
 
 
@@ -106,5 +107,13 @@ proto.onDisconnect = function (socketId) {
     };
   })
 }
+
+
+/**
+ * When a user joins a gameplay inform all existing users
+ */
+proto.onGameData = function(res) {
+  this.namespace().emit('gameData', res);
+};
 
 module.exports = GamePlayRoomManager;
